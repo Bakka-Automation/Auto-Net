@@ -1,0 +1,10 @@
+- os_router:
+    cloud: mycloud
+    state: present
+    name: router1
+    network: ext_network1
+    external_fixed_ips:
+      - subnet: public-subnet
+        ip: 172.24.4.2
+    interfaces:
+      - private-subnet
