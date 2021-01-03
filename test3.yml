@@ -1,0 +1,15 @@
+---
+- name: Create a test environment
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: create instance
+      os_server:
+        state: present
+        cloud: mycloud
+        name: PC3
+        image: cirros
+        timeout: 200
+        flavor: m1.tiny
+        network: auto-network
+        auto_ip: no
