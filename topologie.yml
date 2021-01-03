@@ -1,0 +1,51 @@
+---
+- name: Create a test environment
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: create network
+      os_network:
+        state: present
+        name: "{{ item }}"
+        external: false
+        wait: yes
+      loop:
+         - network_1
+         - network_2
+
+    - name: create subnet
+      os_subnet:
+        state: present
+        network_name: "{{ item.network }}"
+        name: "{{ item.sub }}"
+        cidr: "{{ item.cidr }}"
+        dns_nameservers:
+          - 8.8.8.8
+        wait: yes
+      loop:
+          - { network: 'network_1', sub: 'subnet_1', cidr: '10.10.1.0/24' }
+          - { network: 'network_2', sub: 'subnet_2', cidr: '10.10.2.0/24' }    
+
+    - name: create instance
+      os_server:
+        state: present
+        name: "{{ item.name }}"
+        image: cirros
+        timeout: 200
+        flavor: m1.tiny
+        network: "{{ item.network }}"
+        auto_ip: no
+      loop:
+          - { name: 'PC1', network: 'network_1' }
+          - { name: 'PC2', network: 'network_1' }
+          - { name: 'PC3', network: 'network_2' }
+          - { name: 'PC4', network: 'network_2' }
+
+    - name: create a router
+      os_router:
+        state: present
+        name: Router
+        network: external-network
+        interfaces:
+          - subnet_1
+          - subnet_2
