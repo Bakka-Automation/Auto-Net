@@ -1,35 +1,10 @@
----
-- name: Create a test environment
-  hosts: 10.10.11.98
-  gather_facts: no
-  tasks:
-    - name: create network
-      os_network:
-        auth:
-              auth_url: http://10.10.11.98:5000/v3
-              project_name: admin
-              username: admin
-              project_domain_name: Default
-              user_domain_name: Default
-              password: grt
-        state: present
-        name: test-network
-        external: false
-        wait: yes
-
-    - name: create subnet
-      os_subnet:
-        auth:
-              auth_url: http://10.10.11.98:5000/v3
-              project_name: admin
-              username: admin
-              project_domain_name: Default
-              user_domain_name: Default
-              password: grt
-        state: present
-        network_name: test-network
-        name: test-subnet
-        cidr: 192.168.1.0/24
-        dns_nameservers:
-          - 8.8.8.8
-        wait: yes
+- os_router:
+    cloud: mycloud
+    state: present
+    name: router4
+    network: auto-network
+    external_fixed_ips:
+      - subnet: auto_subnet
+        ip: 192.168.1.24
+    interfaces:
+      - private-subnet
