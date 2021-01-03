@@ -6,6 +6,7 @@
     - name: create instance
       os_server:
         state: present
+        cloud: mycloud
         name: PC2
         image: cirros
         timeout: 200
