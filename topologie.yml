@@ -45,7 +45,7 @@
       os_router:
         state: present
         name: Router
-        network: external-network
+        network: public
         interfaces:
           - subnet_1
           - subnet_2
