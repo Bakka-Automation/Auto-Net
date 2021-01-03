@@ -1,0 +1,9 @@
+---
+- name: Create a test environment
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - os_project_info:
+      register: result
+    - debug:
+        msg: "{{ result.openstack_projects }}"

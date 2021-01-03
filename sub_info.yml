@@ -1,0 +1,11 @@
+---
+- name: Create a test environment
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Gather information about previously created subnets
+      os_subnets_info:
+      register: result
+    - name: Show openstack subnets
+      debug:
+        msg: "{{ result.openstack_subnets }}"
